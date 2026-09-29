@@ -72,3 +72,7 @@ See [IMPLEMENTATION.md](IMPLEMENTATION.md).
 ## License
 
 MIT
+
+## Available now
+
+Importable local primitives include point-in-time bars, a past-only trend signal, cash/position accounting, transaction costs, and return/drawdown helpers. Run `PYTHONPATH=src python -m unittest discover -s tests`. Parquet/DuckDB integration and a full backtest loop are planned.

@@ -55,3 +55,7 @@ At minimum report:
 7. portfolio accounting
 8. walk-forward runner
 9. attribution report
+
+## Scaffold checkpoint
+
+The bar schema, simple signal, cost function, accounting step, and basic metrics are implemented. Data adapters, reproducible storage, and full attribution remain planned.
