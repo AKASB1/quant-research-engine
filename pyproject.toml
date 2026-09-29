@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "quant-research-engine"
+version = "0.1.0"
+description = "Reproducible quantitative research and backtesting engine."
+requires-python = ">=3.12"
+dependencies = [
+  "polars>=1.8",
+  "pyarrow>=17",
+  "duckdb>=1.1",
+  "numpy>=2.0",
+  "pydantic>=2.9",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.11"]
+
+[tool.ruff]
+line-length = 100
