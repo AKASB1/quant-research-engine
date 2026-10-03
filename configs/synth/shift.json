@@ -1,0 +1,14 @@
+{
+  "name": "shift",
+  "n_instruments": 60,
+  "n_bars": 1260,
+  "ic": 0.02,
+  "persistence": 0.9,
+  "observable_noise": 1.0,
+  "factors": [
+    {"name": "market", "annual_vol": 0.16, "mean_annual": 0.05},
+    {"name": "style1", "annual_vol": 0.08},
+    {"name": "style2", "annual_vol": 0.06}
+  ],
+  "shift": {"at_bar": 630, "vol_mult": 1.5, "corr_mult": 1.5, "ic_mult": 0.5, "mu_shift_annual": -0.05}
+}

@@ -1,0 +1,8 @@
+{
+  "name": "null_e3",
+  "n_instruments": 60,
+  "n_bars": 1260,
+  "ic": 0.0,
+  "premium_annual": 0.0,
+  "events": {"delist_hazard_annual": 0.0}
+}

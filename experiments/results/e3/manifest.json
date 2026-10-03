@@ -1,0 +1,207 @@
+{
+  "config": {
+    "S": 16,
+    "bootstrap": {
+      "draws": 1000,
+      "p": 0.1
+    },
+    "capital": 10000000.0,
+    "first_decision_bar": 259,
+    "fixed_trial": {
+      "feature": "momentum",
+      "params": {
+        "lookback": 21,
+        "skip": 5
+      },
+      "rebalance": 5,
+      "rule": 0
+    },
+    "grid": {
+      "rebalance": [
+        1,
+        5,
+        21
+      ],
+      "rules": [
+        {
+          "q": 0.2,
+          "rule": "long_short_quantile",
+          "weighting": "equal"
+        },
+        {
+          "q": 0.3,
+          "rule": "long_short_quantile",
+          "weighting": "signal"
+        }
+      ],
+      "signals": [
+        {
+          "feature": "momentum",
+          "params": [
+            {
+              "lookback": 10,
+              "skip": 5
+            },
+            {
+              "lookback": 21,
+              "skip": 5
+            },
+            {
+              "lookback": 42,
+              "skip": 5
+            },
+            {
+              "lookback": 63,
+              "skip": 5
+            },
+            {
+              "lookback": 126,
+              "skip": 5
+            },
+            {
+              "lookback": 252,
+              "skip": 5
+            }
+          ]
+        },
+        {
+          "feature": "reversal",
+          "params": [
+            {
+              "lookback": 1
+            },
+            {
+              "lookback": 3
+            },
+            {
+              "lookback": 5
+            },
+            {
+              "lookback": 10
+            },
+            {
+              "lookback": 21
+            }
+          ]
+        },
+        {
+          "feature": "low_vol",
+          "params": [
+            {
+              "lookback": 21
+            },
+            {
+              "lookback": 63
+            },
+            {
+              "lookback": 126
+            }
+          ]
+        },
+        {
+          "feature": "signal_x_ewma",
+          "params": [
+            {
+              "halflife": 1
+            },
+            {
+              "halflife": 3
+            },
+            {
+              "halflife": 10
+            },
+            {
+              "halflife": 30
+            }
+          ]
+        }
+      ]
+    },
+    "id": "e3",
+    "lo": {
+      "L": 10,
+      "n_bars": 2520,
+      "phis": [
+        0.0,
+        0.1,
+        0.2,
+        0.3
+      ],
+      "series_per_phi": 200,
+      "sr_bar": 0.05
+    },
+    "log_one_trial_per_panel": false,
+    "n_bars": 1260,
+    "n_instruments": 60,
+    "null": {
+      "seeds": [
+        1000,
+        1199
+      ],
+      "synth": "null_e3"
+    },
+    "planted": {
+      "seeds": [
+        2000,
+        2199
+      ],
+      "synth": "planted"
+    }
+  },
+  "config_hash": "009094c4ec6c8f1f302c788ace70400f1d89e4a9bd62910ca79e0ed09c395280",
+  "data": "synthetic, assumed parameters",
+  "experiment": "e3",
+  "files": {
+    "aggregates.csv": "881a165872367aa7530402adfd0afc1ab0c3f5901d1369585b0e998e1e8b3342",
+    "lo.csv": "d8aee6e2ad210066082b65ab69f4b672ccdd32083bd6bf1c963e04309fda087c",
+    "outputs_index.json": "4c47b999fd2d4bf981d56757835f8922dc5bf5c1f81766a84e0eb1f0f7c18c5c",
+    "pbo_hist.csv": "bd96b30b4dcefc26b0fb71e7be7fbf497e6cb2ffb1a97e9d54c364720704171d",
+    "selected.csv": "289682c33d68086a381e29db877481ccc36dbc25154d64cb55fcec10e2265dba",
+    "trial_grid.csv": "924f3180e65ece7097ecc2570f26673bd9bf5875a3a311d2cdb09c9c1768f2e2",
+    "trials_null_1000_gross.csv": "bb609b2072f5489f426b9b0680c4e45bdde2b56b126921544e6fa2bd69c7cb32",
+    "trials_null_1000_net.csv": "dd124f6cb9a78806bfd0cddccdd0070b67fdcaf007c6829accec069188af845a",
+    "trials_planted_2000_gross.csv": "2dcea91ed369ea062349678f2e53af84f55f51556bfaf250185d0991d8bdd7ef",
+    "trials_planted_2000_net.csv": "003ad810e04247420129cbe784a1fec4ba95a9def7334987ebe69dd5c7333fc7"
+  },
+  "git": {
+    "commit": "a1a001178d75109b00c73aadd809aeced9102b99",
+    "dirty": false
+  },
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i9-14900KF",
+    "logical_cpus": 32,
+    "os": "Windows 11",
+    "ram_gb": 102.9
+  },
+  "label": "full",
+  "machine_load": {
+    "cpu_load_percent_after": 37.0,
+    "cpu_load_percent_before": 22.0,
+    "wall_seconds": 772.9
+  },
+  "mode": "full",
+  "seeds": {
+    "count": 600,
+    "first": 0,
+    "last": 2199
+  },
+  "software": {
+    "duckdb": "1.5.6",
+    "numpy": "2.5.3",
+    "polars": "not used",
+    "pyarrow": "25.0.1",
+    "python": "3.12.3",
+    "quant_research_engine": "0.2.0",
+    "scipy": "1.18.1"
+  },
+  "threads": {
+    "DUCKDB_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "POLARS_MAX_THREADS": "1"
+  },
+  "trial_rows": 86400,
+  "trial_rows_sha256": "9391d394eb23a5566ba25bead1cb269aa56b90360255f75fa62ee9d3f97a44c4",
+  "workers": 2
+}

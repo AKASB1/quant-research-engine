@@ -1,0 +1,510 @@
+{
+  "e1": {
+    "id": "e1",
+    "keep_logs": 3,
+    "seeds": [
+      1,
+      99
+    ],
+    "throughput_reps": 2
+  },
+  "e2": {
+    "audit": {
+      "instants_per_store": 50,
+      "seeds": [
+        1,
+        1
+      ],
+      "synth": "small",
+      "warmup": 20
+    },
+    "c7": {
+      "initial_cash": 10000000.0,
+      "n_bars": 600,
+      "n_instruments": 30,
+      "seeds": [
+        1,
+        2
+      ],
+      "synth": "planted",
+      "warmup": 40
+    },
+    "curve_draws": 100,
+    "curve_m": [
+      1,
+      2,
+      5,
+      10,
+      20,
+      50
+    ],
+    "id": "e2",
+    "sharpe": {
+      "initial_cash": 10000000.0,
+      "n_bars": 600,
+      "n_instruments": 30,
+      "seeds": [
+        1,
+        2
+      ],
+      "subjects": [
+        "C1",
+        "C1b",
+        "C2",
+        "honest"
+      ],
+      "synth": "null_e3",
+      "warmup": 25
+    }
+  },
+  "e3": {
+    "S": 16,
+    "bootstrap": {
+      "draws": 300,
+      "p": 0.1
+    },
+    "capital": 10000000.0,
+    "first_decision_bar": 259,
+    "fixed_trial": {
+      "feature": "momentum",
+      "params": {
+        "lookback": 21,
+        "skip": 5
+      },
+      "rebalance": 5,
+      "rule": 0
+    },
+    "grid": {
+      "rebalance": [
+        1,
+        5,
+        21
+      ],
+      "rules": [
+        {
+          "q": 0.2,
+          "rule": "long_short_quantile",
+          "weighting": "equal"
+        },
+        {
+          "q": 0.3,
+          "rule": "long_short_quantile",
+          "weighting": "signal"
+        }
+      ],
+      "signals": [
+        {
+          "feature": "momentum",
+          "params": [
+            {
+              "lookback": 10,
+              "skip": 5
+            },
+            {
+              "lookback": 21,
+              "skip": 5
+            },
+            {
+              "lookback": 42,
+              "skip": 5
+            },
+            {
+              "lookback": 63,
+              "skip": 5
+            },
+            {
+              "lookback": 126,
+              "skip": 5
+            },
+            {
+              "lookback": 252,
+              "skip": 5
+            }
+          ]
+        },
+        {
+          "feature": "reversal",
+          "params": [
+            {
+              "lookback": 1
+            },
+            {
+              "lookback": 3
+            },
+            {
+              "lookback": 5
+            },
+            {
+              "lookback": 10
+            },
+            {
+              "lookback": 21
+            }
+          ]
+        },
+        {
+          "feature": "low_vol",
+          "params": [
+            {
+              "lookback": 21
+            },
+            {
+              "lookback": 63
+            },
+            {
+              "lookback": 126
+            }
+          ]
+        },
+        {
+          "feature": "signal_x_ewma",
+          "params": [
+            {
+              "halflife": 1
+            },
+            {
+              "halflife": 3
+            },
+            {
+              "halflife": 10
+            },
+            {
+              "halflife": 30
+            }
+          ]
+        }
+      ]
+    },
+    "id": "e3",
+    "lo": {
+      "L": 10,
+      "n_bars": 1260,
+      "phis": [
+        0.0,
+        0.1,
+        0.2,
+        0.3
+      ],
+      "series_per_phi": 20,
+      "sr_bar": 0.05
+    },
+    "log_one_trial_per_panel": true,
+    "n_bars": 1260,
+    "n_instruments": 60,
+    "null": {
+      "seeds": [
+        1,
+        20
+      ],
+      "synth": "null_e3"
+    },
+    "planted": {
+      "seeds": [
+        21,
+        40
+      ],
+      "synth": "planted"
+    }
+  },
+  "e4": {
+    "b": {
+      "cost_mult": [
+        0.0,
+        0.5,
+        1.0,
+        2.0,
+        4.0
+      ],
+      "rebalance": [
+        1,
+        5,
+        21
+      ]
+    },
+    "c": {
+      "delays": [
+        1,
+        2,
+        3
+      ],
+      "next_close": true,
+      "phis": [
+        0.5,
+        0.9,
+        0.97
+      ],
+      "rebalance": 5
+    },
+    "capital": 10000000.0,
+    "first_decision_bar": 62,
+    "id": "e4",
+    "n_bars": 1000,
+    "n_instruments": 50,
+    "seeds": [
+      1,
+      3
+    ],
+    "strategy": {
+      "feature": "signal_x_ewma",
+      "params": {
+        "halflife": 3
+      },
+      "q": 0.2,
+      "weighting": "equal"
+    }
+  },
+  "e5": {
+    "folds": 5,
+    "gap": 21,
+    "heldout": 252,
+    "horizons": [
+      1,
+      5,
+      21
+    ],
+    "id": "e5",
+    "knn_k": 25,
+    "n_bars": 1533,
+    "n_instruments": 60,
+    "null": {
+      "seeds": [
+        1,
+        5
+      ],
+      "synth": "null"
+    },
+    "planted": {
+      "seeds": [
+        6,
+        10
+      ],
+      "synth": "planted"
+    },
+    "sample": 1260,
+    "schemes": [
+      "shuffled_kfold",
+      "contiguous_kfold",
+      "purged_kfold",
+      "walk_forward"
+    ]
+  },
+  "e5b": {
+    "cpcv_groups": 6,
+    "cpcv_test_groups": 2,
+    "folds": 5,
+    "gap": 21,
+    "heldout": 252,
+    "horizons": [
+      5
+    ],
+    "id": "e5b",
+    "knn_k": 25,
+    "n_bars": 1533,
+    "n_instruments": 60,
+    "null": {
+      "seeds": [
+        1,
+        3
+      ],
+      "synth": "null"
+    },
+    "planted": {
+      "seeds": [
+        4,
+        6
+      ],
+      "synth": "planted"
+    },
+    "sample": 1260,
+    "schemes": [
+      "shuffled_kfold",
+      "contiguous_kfold",
+      "purged_kfold",
+      "walk_forward"
+    ]
+  },
+  "t2_capacity": {
+    "capitals": [
+      1000000.0,
+      10000000.0,
+      30000000.0,
+      100000000.0,
+      300000000.0,
+      1000000000.0,
+      3000000000.0
+    ],
+    "id": "t2_capacity",
+    "n_bars": 600,
+    "n_instruments": 30,
+    "rebalance": 5,
+    "seeds": [
+      1,
+      2
+    ],
+    "warmup": 40
+  },
+  "t2_trials": {
+    "e3": {
+      "S": 16,
+      "bootstrap": {
+        "draws": 300,
+        "p": 0.1
+      },
+      "capital": 10000000.0,
+      "first_decision_bar": 259,
+      "fixed_trial": {
+        "feature": "momentum",
+        "params": {
+          "lookback": 21,
+          "skip": 5
+        },
+        "rebalance": 5,
+        "rule": 0
+      },
+      "grid": {
+        "rebalance": [
+          1,
+          5,
+          21
+        ],
+        "rules": [
+          {
+            "q": 0.2,
+            "rule": "long_short_quantile",
+            "weighting": "equal"
+          },
+          {
+            "q": 0.3,
+            "rule": "long_short_quantile",
+            "weighting": "signal"
+          }
+        ],
+        "signals": [
+          {
+            "feature": "momentum",
+            "params": [
+              {
+                "lookback": 10,
+                "skip": 5
+              },
+              {
+                "lookback": 21,
+                "skip": 5
+              },
+              {
+                "lookback": 42,
+                "skip": 5
+              },
+              {
+                "lookback": 63,
+                "skip": 5
+              },
+              {
+                "lookback": 126,
+                "skip": 5
+              },
+              {
+                "lookback": 252,
+                "skip": 5
+              }
+            ]
+          },
+          {
+            "feature": "reversal",
+            "params": [
+              {
+                "lookback": 1
+              },
+              {
+                "lookback": 3
+              },
+              {
+                "lookback": 5
+              },
+              {
+                "lookback": 10
+              },
+              {
+                "lookback": 21
+              }
+            ]
+          },
+          {
+            "feature": "low_vol",
+            "params": [
+              {
+                "lookback": 21
+              },
+              {
+                "lookback": 63
+              },
+              {
+                "lookback": 126
+              }
+            ]
+          },
+          {
+            "feature": "signal_x_ewma",
+            "params": [
+              {
+                "halflife": 1
+              },
+              {
+                "halflife": 3
+              },
+              {
+                "halflife": 10
+              },
+              {
+                "halflife": 30
+              }
+            ]
+          }
+        ]
+      },
+      "id": "e3",
+      "lo": {
+        "L": 10,
+        "n_bars": 1260,
+        "phis": [
+          0.0,
+          0.1,
+          0.2,
+          0.3
+        ],
+        "series_per_phi": 20,
+        "sr_bar": 0.05
+      },
+      "log_one_trial_per_panel": true,
+      "n_bars": 1260,
+      "n_instruments": 60,
+      "null": {
+        "seeds": [
+          1,
+          20
+        ],
+        "synth": "null_e3"
+      },
+      "planted": {
+        "seeds": [
+          21,
+          40
+        ],
+        "synth": "planted"
+      }
+    },
+    "id": "t2_trials",
+    "null": {
+      "seeds": [
+        1,
+        20
+      ]
+    },
+    "planted": {
+      "seeds": [
+        21,
+        40
+      ]
+    }
+  }
+}

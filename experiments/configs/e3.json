@@ -1,0 +1,149 @@
+{
+  "S": 16,
+  "bootstrap": {
+    "draws": 1000,
+    "p": 0.1
+  },
+  "capital": 10000000.0,
+  "first_decision_bar": 259,
+  "fixed_trial": {
+    "feature": "momentum",
+    "params": {
+      "lookback": 21,
+      "skip": 5
+    },
+    "rebalance": 5,
+    "rule": 0
+  },
+  "grid": {
+    "rebalance": [
+      1,
+      5,
+      21
+    ],
+    "rules": [
+      {
+        "q": 0.2,
+        "rule": "long_short_quantile",
+        "weighting": "equal"
+      },
+      {
+        "q": 0.3,
+        "rule": "long_short_quantile",
+        "weighting": "signal"
+      }
+    ],
+    "signals": [
+      {
+        "feature": "momentum",
+        "params": [
+          {
+            "lookback": 10,
+            "skip": 5
+          },
+          {
+            "lookback": 21,
+            "skip": 5
+          },
+          {
+            "lookback": 42,
+            "skip": 5
+          },
+          {
+            "lookback": 63,
+            "skip": 5
+          },
+          {
+            "lookback": 126,
+            "skip": 5
+          },
+          {
+            "lookback": 252,
+            "skip": 5
+          }
+        ]
+      },
+      {
+        "feature": "reversal",
+        "params": [
+          {
+            "lookback": 1
+          },
+          {
+            "lookback": 3
+          },
+          {
+            "lookback": 5
+          },
+          {
+            "lookback": 10
+          },
+          {
+            "lookback": 21
+          }
+        ]
+      },
+      {
+        "feature": "low_vol",
+        "params": [
+          {
+            "lookback": 21
+          },
+          {
+            "lookback": 63
+          },
+          {
+            "lookback": 126
+          }
+        ]
+      },
+      {
+        "feature": "signal_x_ewma",
+        "params": [
+          {
+            "halflife": 1
+          },
+          {
+            "halflife": 3
+          },
+          {
+            "halflife": 10
+          },
+          {
+            "halflife": 30
+          }
+        ]
+      }
+    ]
+  },
+  "id": "e3",
+  "lo": {
+    "L": 10,
+    "n_bars": 2520,
+    "phis": [
+      0.0,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "series_per_phi": 200,
+    "sr_bar": 0.05
+  },
+  "log_one_trial_per_panel": false,
+  "n_bars": 1260,
+  "n_instruments": 60,
+  "null": {
+    "seeds": [
+      1000,
+      1199
+    ],
+    "synth": "null_e3"
+  },
+  "planted": {
+    "seeds": [
+      2000,
+      2199
+    ],
+    "synth": "planted"
+  }
+}

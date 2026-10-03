@@ -1,0 +1,89 @@
+{
+  "content_sha256": "ac5a0df38e8dcad4a9614f06e6f47fb6e24a2ec52d8661f3c07613d055c7d729",
+  "generator": {
+    "name": "qre.synth",
+    "parameters": {
+      "beta_market_mean": 1.0,
+      "beta_market_sd": 0.25,
+      "beta_style_sd": 0.5,
+      "calendar": "equity_daily",
+      "events": {
+        "announce_lead_bars": 5,
+        "delist_hazard_annual": 4.0,
+        "delist_return_mean": -0.3,
+        "delist_return_sd": 0.25,
+        "dividend_every_bars": 21,
+        "dividend_share": 1.0,
+        "dividend_yield_annual": 0.02,
+        "enabled": true,
+        "late_listing_share": 0.25,
+        "min_life_bars": 20,
+        "split_rate_annual": 4.0,
+        "split_ratios": [
+          2.0,
+          3.0
+        ]
+      },
+      "factors": [
+        {
+          "annual_vol": 0.16,
+          "mean_annual": 0.0,
+          "name": "market"
+        },
+        {
+          "annual_vol": 0.08,
+          "mean_annual": 0.0,
+          "name": "style1"
+        },
+        {
+          "annual_vol": 0.06,
+          "mean_annual": 0.0,
+          "name": "style2"
+        }
+      ],
+      "fund_x": {
+        "lag0_bars": 2,
+        "lag1_bars": 6,
+        "period_bars": 10,
+        "w": 2.0
+      },
+      "gap_share": 0.25,
+      "ic": 0.02,
+      "idio_vol_log_sd": 0.25,
+      "idio_vol_median": 0.3,
+      "lot_size": 0.0,
+      "n_bars": 60,
+      "n_instruments": 4,
+      "name": "tiny",
+      "observable_noise": 1.0,
+      "persistence": 0.9,
+      "ppy": 252,
+      "premium_annual": 0.0,
+      "price_log_sd": 0.6,
+      "price_median": 40.0,
+      "range_scale": 0.5,
+      "regime": {
+        "enabled": true,
+        "p_calm_to_stress": 0.01,
+        "p_stress_to_calm": 0.05,
+        "stress_vol_mult": 2.0
+      },
+      "shift": null,
+      "start": "2010-01-04",
+      "tails": "student_t",
+      "tick_size": 0.01,
+      "volume": {
+        "adv_log_sd": 1.0,
+        "adv_median": 1000000.0,
+        "ar_phi": 0.8,
+        "ar_sd": 0.3,
+        "zero_volume_prob": 0.02
+      }
+    },
+    "version": "0.2.0"
+  },
+  "qc_version": 1,
+  "row_count": 214,
+  "schema_version": 1,
+  "seed": 1
+}

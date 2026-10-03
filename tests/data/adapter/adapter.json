@@ -1,0 +1,16 @@
+{
+  "availability_delay_seconds": 0,
+  "bars_file": "prices.csv",
+  "calendar": "equity_daily",
+  "columns": {
+    "close": "c",
+    "date": "day",
+    "high": "h",
+    "instrument_id": "ticker",
+    "low": "l",
+    "open": "o",
+    "volume": "v"
+  },
+  "ppy": 252,
+  "source": "synthetic test file written by the tests (stands in for third-party data)"
+}

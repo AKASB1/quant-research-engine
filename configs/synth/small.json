@@ -1,0 +1,15 @@
+{
+  "name": "small",
+  "n_instruments": 20,
+  "n_bars": 500,
+  "ic": 0.02,
+  "persistence": 0.9,
+  "observable_noise": 1.0,
+  "volume": {"zero_volume_prob": 0.005},
+  "events": {
+    "delist_hazard_annual": 0.2,
+    "split_rate_annual": 0.5,
+    "dividend_share": 1.0,
+    "late_listing_share": 0.15
+  }
+}

@@ -4,19 +4,36 @@ build-backend = "hatchling.build"
 
 [project]
 name = "quant-research-engine"
-version = "0.1.0"
-description = "Reproducible quantitative research and backtesting engine."
+version = "0.2.0"
+description = "Point-in-time research engine: guarded data access, two cross-checked backtest engines, and selection-aware inference on synthetic markets."
 requires-python = ">=3.12"
+license = { text = "MIT" }
 dependencies = [
-  "polars>=1.8",
+  "numpy>=2.0",
+  "scipy>=1.13",
   "pyarrow>=17",
   "duckdb>=1.1",
-  "numpy>=2.0",
   "pydantic>=2.9",
+  "matplotlib>=3.8",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.6", "mypy>=1.11"]
+dev = ["pytest>=8", "pytest-repeat>=0.9", "ruff>=0.6"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/quant_research_engine"]
 
 [tool.ruff]
 line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E741", "B905"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+  "slow: long-running audit, generator, and engine checks (included in the default run)",
+]
+addopts = "-p no:cacheprovider"

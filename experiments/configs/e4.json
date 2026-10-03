@@ -1,0 +1,47 @@
+{
+  "b": {
+    "cost_mult": [
+      0.0,
+      0.5,
+      1.0,
+      2.0,
+      4.0
+    ],
+    "rebalance": [
+      1,
+      5,
+      21
+    ]
+  },
+  "c": {
+    "delays": [
+      1,
+      2,
+      3
+    ],
+    "next_close": true,
+    "phis": [
+      0.5,
+      0.9,
+      0.97
+    ],
+    "rebalance": 5
+  },
+  "capital": 10000000.0,
+  "first_decision_bar": 62,
+  "id": "e4",
+  "n_bars": 2520,
+  "n_instruments": 100,
+  "seeds": [
+    5000,
+    5019
+  ],
+  "strategy": {
+    "feature": "signal_x_ewma",
+    "params": {
+      "halflife": 3
+    },
+    "q": 0.2,
+    "weighting": "equal"
+  }
+}

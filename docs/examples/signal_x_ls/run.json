@@ -1,0 +1,63 @@
+{
+  "books": {
+    "long": {
+      "borrow": 0.0,
+      "dividends": 2980.7145527524945,
+      "fill_costs": 22041.71700085836,
+      "hold_pnl": -41349.346243355525,
+      "trade_pnl": -8646.321264857466
+    },
+    "short": {
+      "borrow": 696.1195929159901,
+      "dividends": -6249.639416962243,
+      "fill_costs": 11689.402346060013,
+      "hold_pnl": 135000.2606498814,
+      "trade_pnl": 103928.84428383967
+    }
+  },
+  "cancelled_orders": 0,
+  "cap_binds": 1,
+  "data": "synthetic, assumed parameters",
+  "engine": {
+    "allow_short": true,
+    "costs": {
+      "borrow_bps_annual": 50.0,
+      "cash_rate_bps_annual": 0.0,
+      "commission_bps": 1.0,
+      "commission_per_share": 0.0,
+      "financing_bps_annual": 100.0,
+      "half_spread_bps": 2.0,
+      "impact": {
+        "model": "sqrt",
+        "y": 0.5
+      },
+      "min_commission": 0.0,
+      "participation_cap": 0.1,
+      "schema_version": 1
+    },
+    "fill_delay_bars": 1,
+    "fill_model": "next_open",
+    "initial_cash": 1000000.0,
+    "max_leverage": null,
+    "sizing": "equity",
+    "unsafe_same_bar_fill": false
+  },
+  "files": {
+    "equity": "d0a5047c05aef96b14331fb25f1f36b488cf51d9ab1c3105a932f61233f83477",
+    "fills": "857c8957721135961c0767e0f68f49fcd8b06bca5ddaf460f8e25ec96c500122",
+    "orders": "baa998ac617efe544e28577e8fd405e387467820740966fe831f6622c8e0f472",
+    "positions": "950dc04be579273f23b577851c4351c31313139cd86e30979a7f3255b1b0d546"
+  },
+  "impact_unavailable": 3,
+  "label": "safe",
+  "max_identity_residual": 2.998587630465867e-16,
+  "params": {},
+  "participation_cap_enforced": true,
+  "ppy": 252,
+  "rebalance_every": 5,
+  "rejected_orders": 0,
+  "store": "example",
+  "store_seed": 1,
+  "strategy": "quant_research_engine.strategies.signal_x_ls:SignalXLS",
+  "warmup_bars": 30
+}

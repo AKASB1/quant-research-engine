@@ -1,0 +1,16 @@
+{
+  "name": "example",
+  "n_instruments": 8,
+  "n_bars": 120,
+  "ic": 0.05,
+  "volume": {"zero_volume_prob": 0.01},
+  "events": {
+    "delist_hazard_annual": 3.0,
+    "split_rate_annual": 1.5,
+    "dividend_share": 1.0,
+    "dividend_every_bars": 42,
+    "announce_lead_bars": 5,
+    "late_listing_share": 0.2,
+    "min_life_bars": 40
+  }
+}

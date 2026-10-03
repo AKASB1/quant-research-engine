@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      PYTHONUTF8: "1"
+      OMP_NUM_THREADS: "1"
+      OPENBLAS_NUM_THREADS: "1"
+      MKL_NUM_THREADS: "1"
+      POLARS_MAX_THREADS: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Environment
+        run: bash scripts/setup_env.sh
+      - name: Lint
+        run: |
+          .venv/bin/python -m ruff check src tests scripts
+          .venv/bin/python -m ruff format --check src tests scripts
+      - name: Tests
+        run: .venv/bin/python -m pytest -q
+      - name: Quick experiments
+        run: .venv/bin/python -m quant_research_engine experiment run --quick --workers 2
+      - name: Audit
+        run: .venv/bin/python -m quant_research_engine audit --canaries tests/canaries --seed 1 --instants 50 --out outputs/audit/audit_table.csv
+      - name: Export and validate
+        run: |
+          .venv/bin/python -m quant_research_engine export --config configs/synth/planted.json --seed 1 --out outputs/export/planted
+          .venv/bin/python -m quant_research_engine validate outputs/export/planted

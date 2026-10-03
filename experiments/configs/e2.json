@@ -1,0 +1,49 @@
+{
+  "audit": {
+    "instants_per_store": 10,
+    "seeds": [
+      4100,
+      4109
+    ],
+    "synth": "small",
+    "warmup": 20
+  },
+  "c7": {
+    "initial_cash": 10000000.0,
+    "n_bars": 1260,
+    "n_instruments": 60,
+    "seeds": [
+      4200,
+      4209
+    ],
+    "synth": "planted",
+    "warmup": 40
+  },
+  "curve_draws": 100,
+  "curve_m": [
+    1,
+    2,
+    5,
+    10,
+    20,
+    50
+  ],
+  "id": "e2",
+  "sharpe": {
+    "initial_cash": 10000000.0,
+    "n_bars": 1260,
+    "n_instruments": 60,
+    "seeds": [
+      4000,
+      4009
+    ],
+    "subjects": [
+      "C1",
+      "C1b",
+      "C2",
+      "honest"
+    ],
+    "synth": "null_e3",
+    "warmup": 25
+  }
+}

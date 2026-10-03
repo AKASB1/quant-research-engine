@@ -1,0 +1,15 @@
+{
+  "name": "planted_clean",
+  "n_instruments": 100,
+  "n_bars": 2520,
+  "ic": 0.02,
+  "persistence": 0.9,
+  "observable_noise": 1.0,
+  "factors": [],
+  "idio_vol_median": 0.25,
+  "idio_vol_log_sd": 0.0,
+  "regime": {"enabled": false},
+  "tails": "gaussian",
+  "volume": {"zero_volume_prob": 0.0},
+  "events": {"enabled": false}
+}

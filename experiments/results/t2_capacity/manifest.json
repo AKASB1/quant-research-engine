@@ -1,0 +1,69 @@
+{
+  "config": {
+    "capitals": [
+      1000000.0,
+      10000000.0,
+      30000000.0,
+      100000000.0,
+      300000000.0,
+      1000000000.0,
+      3000000000.0
+    ],
+    "id": "t2_capacity",
+    "n_bars": 1260,
+    "n_instruments": 60,
+    "rebalance": 5,
+    "seeds": [
+      10000,
+      10009
+    ],
+    "warmup": 40
+  },
+  "config_hash": "02afd8830aab30530af9d5cb4813849a930fc02656ffd46f76078281fd0947f9",
+  "data": "synthetic, assumed parameters",
+  "experiment": "t2_capacity",
+  "files": {
+    "aggregates.csv": "b29be36926e03e2380e73810b1f1b6c9337b1490c1ead53f8a98cc51e7cba1b1",
+    "aggregates.json": "411e25a9f2fb56051fcc9a758f43e56d73ebcac9a2fb8f402775ec1aba75ecb4",
+    "rows.csv": "f7989d823a4b527837870d4886865e6908b54b111c24b73f2c69955af1644579"
+  },
+  "git": {
+    "commit": "df91f7c29d5ade56ac881e99286ad6288907eac0",
+    "dirty": false
+  },
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i9-14900KF",
+    "logical_cpus": 32,
+    "os": "Windows 11",
+    "ram_gb": 102.9
+  },
+  "label": "full",
+  "machine_load": {
+    "cpu_load_percent_after": 11.0,
+    "cpu_load_percent_before": 38.0,
+    "wall_seconds": 54.0
+  },
+  "mode": "full",
+  "seeds": {
+    "count": 10,
+    "first": 10000,
+    "last": 10009
+  },
+  "software": {
+    "duckdb": "1.5.6",
+    "numpy": "2.5.3",
+    "polars": "not used",
+    "pyarrow": "25.0.1",
+    "python": "3.12.3",
+    "quant_research_engine": "0.2.0",
+    "scipy": "1.18.1"
+  },
+  "threads": {
+    "DUCKDB_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "POLARS_MAX_THREADS": "1"
+  },
+  "workers": 2
+}
