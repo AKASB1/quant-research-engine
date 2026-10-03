@@ -12,12 +12,20 @@ venv/
 dist/
 build/
 *.egg-info/
-.ipynb_checkpoints/
 data/raw/
 data/cache/
-artifacts/
-reports/generated/
 logs/
 .DS_Store
 .idea/
 .vscode/
+.claude/
+
+# Generated stores, per-run outputs, quick results, downloads (never committed)
+outputs/
+experiments/outputs/
+reports/generated/
+*.parquet
+*.duckdb
+
+# Private planning notes
+*.local.md

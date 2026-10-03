@@ -1,0 +1,84 @@
+{
+  "config": {
+    "folds": 5,
+    "gap": 21,
+    "heldout": 252,
+    "horizons": [
+      1,
+      5,
+      21
+    ],
+    "id": "e5",
+    "knn_k": 25,
+    "n_bars": 1533,
+    "n_instruments": 60,
+    "null": {
+      "seeds": [
+        6000,
+        6049
+      ],
+      "synth": "null"
+    },
+    "planted": {
+      "seeds": [
+        7000,
+        7049
+      ],
+      "synth": "planted"
+    },
+    "sample": 1260,
+    "schemes": [
+      "shuffled_kfold",
+      "contiguous_kfold",
+      "purged_kfold",
+      "walk_forward"
+    ]
+  },
+  "config_hash": "72a03d92f8c2b91e7e82bf82bbe5b5ef34fbb2050a1f53abc081d73422feb29d",
+  "data": "synthetic, assumed parameters",
+  "experiment": "e5",
+  "files": {
+    "aggregates.csv": "95d025c66ac3c5f2da407a69807f1e7e42ff1950ea00869e582d0f80fbf8758b",
+    "aggregates.json": "957ff1812967e0a239be212a9c5ba5d2edc18a1916431a9564334a9964055f96",
+    "rows.csv": "7f3d87bc2b032a24c3b5f24ab6319606e11d67bc572132a38965400301ac64b7"
+  },
+  "git": {
+    "commit": "a1a001178d75109b00c73aadd809aeced9102b99",
+    "dirty": false
+  },
+  "hardware": {
+    "cpu": "Intel(R) Core(TM) i9-14900KF",
+    "logical_cpus": 32,
+    "os": "Windows 11",
+    "ram_gb": 102.9
+  },
+  "label": "full",
+  "machine_load": {
+    "cpu_load_percent_after": 45.0,
+    "cpu_load_percent_before": 32.0,
+    "wall_seconds": 913.6
+  },
+  "mode": "full",
+  "seeds": {
+    "count": 100,
+    "first": 6000,
+    "last": 7049
+  },
+  "software": {
+    "duckdb": "1.5.6",
+    "numpy": "2.5.3",
+    "polars": "not used",
+    "pyarrow": "25.0.1",
+    "python": "3.12.3",
+    "quant_research_engine": "0.2.0",
+    "scipy": "1.18.1"
+  },
+  "threads": {
+    "DUCKDB_THREADS": "1",
+    "MKL_NUM_THREADS": "1",
+    "OMP_NUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1",
+    "POLARS_MAX_THREADS": "1"
+  },
+  "workers": 2
+}

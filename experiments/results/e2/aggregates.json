@@ -1,0 +1,17 @@
+{
+  "caught_by_named_guard": {
+    "C1": true,
+    "C1b": true,
+    "C1g": true,
+    "C1s": true,
+    "C2": true,
+    "C3": true,
+    "C4": true,
+    "C5": true,
+    "C6": true,
+    "C7": true,
+    "C8": true
+  },
+  "honest_alarms": [],
+  "subjects": 22
+}

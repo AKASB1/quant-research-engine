@@ -1,0 +1,30 @@
+{
+  "data": {
+    "cache_file_sha256": "8f394fe34bea54d41b9aafed410425ee8f8e252ede3c71a7c1cd20bab83040de",
+    "first_date": "2000-01-03",
+    "last_date": "2026-08-31",
+    "portfolios": 49,
+    "source": "Kenneth R. French Data Library, 49_Industry_Portfolios_daily (value-weighted daily returns)",
+    "terms": "copyright notice of Eugene F. Fama and Kenneth R. French; no terms of use, licence, or click-through found on the data library page; the file says it was created from the CRSP database; downloaded to the git-ignored cache only",
+    "vintage": "latest at download time; not point-in-time (the library revises history)"
+  },
+  "label": "illustration, no claims",
+  "metrics": {
+    "bars": 6674,
+    "fills": 8992,
+    "gross_sharpe_annualized": 0.2504805229669648,
+    "max_drawdown": 0.19393219398534903,
+    "max_identity_residual": 8.697323474678435e-16,
+    "net_sharpe_annualized": 0.15300903254558315,
+    "psr0_net": 0.7840742885528806
+  },
+  "run": {
+    "costs": "base spread and commission; impact off (no volume in the source)",
+    "fill_model": "next_close (the source has no open)",
+    "rebalance_every_bars": 21,
+    "strategy": "momentum_ls (momentum(21, 5), long_short_quantile(0.2, equal, gross 1))",
+    "trials": 1,
+    "ts_avail": "close + 1 day",
+    "warmup_bars": 30
+  }
+}

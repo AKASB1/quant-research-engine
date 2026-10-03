@@ -1,0 +1,4 @@
+{
+  "alpha": 0.05,
+  "note": "null: share of markets with a discovery (false positive); planted: share with a discovery that involves a signal_x trial (power)"
+}

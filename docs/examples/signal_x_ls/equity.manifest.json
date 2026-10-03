@@ -1,0 +1,14 @@
+{
+  "content_sha256": "d0a5047c05aef96b14331fb25f1f36b488cf51d9ab1c3105a932f61233f83477",
+  "generator": {
+    "label": "safe",
+    "name": "qre.engine.event",
+    "parameters": {
+      "strategy_id": "signal_x_ls"
+    }
+  },
+  "qc_version": 1,
+  "row_count": 120,
+  "schema_version": 1,
+  "seed": null
+}

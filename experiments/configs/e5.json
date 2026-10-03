@@ -1,0 +1,35 @@
+{
+  "folds": 5,
+  "gap": 21,
+  "heldout": 252,
+  "horizons": [
+    1,
+    5,
+    21
+  ],
+  "id": "e5",
+  "knn_k": 25,
+  "n_bars": 1533,
+  "n_instruments": 60,
+  "null": {
+    "seeds": [
+      6000,
+      6049
+    ],
+    "synth": "null"
+  },
+  "planted": {
+    "seeds": [
+      7000,
+      7049
+    ],
+    "synth": "planted"
+  },
+  "sample": 1260,
+  "schemes": [
+    "shuffled_kfold",
+    "contiguous_kfold",
+    "purged_kfold",
+    "walk_forward"
+  ]
+}

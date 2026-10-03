@@ -1,0 +1,9 @@
+{
+  "id": "e1",
+  "keep_logs": 5,
+  "seeds": [
+    3000,
+    3999
+  ],
+  "throughput_reps": 5
+}

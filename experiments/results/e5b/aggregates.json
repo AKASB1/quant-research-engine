@@ -1,0 +1,18 @@
+{
+  "null_h5_sharpe": {
+    "closest_to_heldout": "purged_kfold",
+    "noisiest": "walk_forward"
+  },
+  "null_h5_spearman": {
+    "closest_to_heldout": "walk_forward",
+    "noisiest": "purged_kfold"
+  },
+  "planted_h5_sharpe": {
+    "closest_to_heldout": "walk_forward",
+    "noisiest": "contiguous_kfold"
+  },
+  "planted_h5_spearman": {
+    "closest_to_heldout": "walk_forward",
+    "noisiest": "contiguous_kfold"
+  }
+}

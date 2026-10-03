@@ -1,0 +1,17 @@
+{
+  "name": "tiny",
+  "n_instruments": 4,
+  "n_bars": 60,
+  "ic": 0.02,
+  "volume": {"zero_volume_prob": 0.02},
+  "events": {
+    "delist_hazard_annual": 4.0,
+    "split_rate_annual": 4.0,
+    "dividend_share": 1.0,
+    "dividend_every_bars": 21,
+    "announce_lead_bars": 5,
+    "late_listing_share": 0.25,
+    "min_life_bars": 20
+  },
+  "fund_x": {"period_bars": 10, "lag0_bars": 2, "lag1_bars": 6}
+}
