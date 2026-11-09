@@ -1,0 +1,32 @@
+vars: {
+  d2-config: {
+    sketch: true
+    layout-engine: elk
+    pad: 24
+  }
+}
+classes: {
+  comp: {style: {fill: "#DDF2E3"; stroke: "#2E7D4A"; stroke-width: 2; font-size: 22; font-color: "#1F2328"; border-radius: 6}}
+  ext: {style: {fill: "#FFFFFF"; stroke: "#57606A"; stroke-width: 2; font-size: 22; font-color: "#1F2328"}}
+  store: {shape: cylinder; style: {fill: "#FFFFFF"; stroke: "#2E7D4A"; stroke-width: 2; font-size: 22; font-color: "#1F2328"}}
+  flow: {style: {stroke: "#424A53"; stroke-width: 2; font-size: 22; font-color: "#1F2328"}}
+}
+direction: right
+
+store: "point-in-time store\nsynthetic markets" {class: store}
+guards: "guards G1–G7\ncanaries C1–C8" {class: comp}
+ctx: "DecisionContext\nrows known at t" {class: comp}
+engines: "EventEngine\nrun_target_shares" {class: comp}
+dte: "dynamic-trading-engine\nreads export v1" {class: ext}
+strategy: "strategy\nfeatures · rules" {class: comp}
+validator: "independent\nvalidator" {class: comp}
+inference: "PSR · DSR · PBO\npurged CV" {class: comp}
+
+store -> ctx {class: flow}
+store -> engines {class: flow}
+store -> dte {class: flow}
+ctx -> strategy {class: flow}
+guards -> strategy {class: flow}
+engines <-> strategy: decisions {class: flow}
+engines -> validator: logs {class: flow}
+engines -> inference: returns {class: flow}

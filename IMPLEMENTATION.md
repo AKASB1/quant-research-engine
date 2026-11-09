@@ -8,9 +8,9 @@ The engine makes it hard to use future information by accident. The rules are en
 - A strategy receives only a `DecisionContext`: read-only copies of the rows known at the decision instant, adjusted as of that instant, without a reference to the store (G1).
 - Every built-in strategy and feature, and every canary, goes through the replay audit (G2): decisions must be bit-identical when everything after the decision instant is perturbed.
 - Strategy and feature modules pass an import allow-list lint (G3); features declare their inputs and lookback and their declared availability is audited against the inputs they read (G4).
-- Fills happen at the earliest one bar after the decision; same-bar fills exist only behind an explicit unsafe flag and are labelled `UNSAFE` everywhere (G5).
+- Fills happen at the earliest one bar after the decision; same-bar fills exist only behind an explicit unsafe flag and are labeled `UNSAFE` everywhere (G5).
 - Cross-validation refuses splitters whose training labels overlap test labels (G6); the universe includes instruments that later delist (G7).
-- Results are reproducible from one command with fixed seeds and committed configurations: byte for byte on one platform with the same package versions, numerically across platforms; every experiment's results have a manifest (commit, configuration hash, seeds, versions, hardware, workers, threads, machine load); the French illustration, a script, has a short one.
+- Results are reproducible from one command with fixed seeds and committed configurations: byte for byte on one platform with the same package versions, numerically across platforms; every experiment's results have a manifest (commit, configuration hash, seeds, versions, hardware class, workers, threads, wall time); the French illustration, a script, has a short one.
 
 ## Data layer
 
@@ -26,7 +26,7 @@ Cost model v1 of the contract: half-spread, square-root (or linear) impact from 
 
 ## Evaluation
 
-Metrics and inference of the contract (section 6) plus five experiments on synthetic markets where the truth is known: E1 engine and accounting audit, E2 leakage audit, E3 calibration of the inference tools, E4 signal recovery, costs, and lag, E5 validation schemes ([experiments/README.md](experiments/README.md)). The experiments evaluate the engine's guarantees, not strategies; gross panels (costs zero) are the calibration, net panels are reported separately and labelled.
+Metrics and inference of the contract (section 6) plus five experiments on synthetic markets where the truth is known: E1 engine and accounting audit, E2 leakage audit, E3 calibration of the inference tools, E4 signal recovery, costs, and lag, E5 validation schemes ([experiments/README.md](experiments/README.md)). The experiments evaluate the engine's guarantees, not strategies; gross panels (costs zero) are the calibration, net panels are reported separately and labeled.
 
 ## Delivery order
 
@@ -39,15 +39,15 @@ Metrics and inference of the contract (section 6) plus five experiments on synth
 - [x] Simple signal API and a minimal feature layer (five features, three rules, six strategies)
 - [x] Export of returns, signals, forecasts, and liquidity inputs for the decision layer (export v1)
 - [x] Attribution report (by instrument and by long and short book)
-- [x] Tier 2, item 1: CPCV comparison of validation schemes (E5b, results from commit `6892cb1`)
-- [x] Tier 2, item 2: real-data adapters: Kenneth French (illustration from commit `0ea0e9b`), Binance (offline fixture only; download needs the owner's acceptance of its terms); SEC skipped (`QRE_SEC_USER_AGENT` not set)
-- [x] Tier 2, item 3: capacity and impact (results from commit `df91f7c`)
-- [x] Tier 2, item 4: effective number of trials and multiple testing (results from commit `d26a863`)
-- [ ] Tier 2, items 5 to 8: factor exposure attribution, intraday bars and latency, nested validation, exports at three sizes (not started; README TODO)
+- [x] CPCV comparison of validation schemes (E5b, results from commit `6892cb1`)
+- [x] Real-data adapters: Kenneth French (illustration from commit `0ea0e9b`), Binance (offline fixture only; downloading needs an acceptance of its terms); SEC skipped (`QRE_SEC_USER_AGENT` not set)
+- [x] Capacity and impact (results from commit `df91f7c`)
+- [x] Effective number of trials and multiple testing (results from commit `d26a863`)
+- [ ] Factor exposure attribution, intraday bars and latency, nested validation, exports at three sizes (not started; [limitations](experiments/README.md#limitations))
 
 ## Checkpoint
 
-Tier 1 is complete. The checks pass, the fixes for review 1's nine findings went in before the freeze, and the full evaluation (E1 to E5) ran once on commit `a1a0011`, with its results committed in `fbd3232`. Tier 2 items 1 to 4 are done, each with the commit that produced its result; items 5 to 8 are not started. What is not done is in the README's TODO section.
+The core is complete: the checks pass, and the full evaluation (E1 to E5) ran once on commit `a1a0011`, with its results committed in `fbd3232`. Four later experiments are done, each with the commit that produced its result. What is not built is listed in the [limitations](experiments/README.md#limitations).
 
 ## Cross-project contracts
 

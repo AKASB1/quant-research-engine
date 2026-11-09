@@ -60,10 +60,9 @@
     "dirty": false
   },
   "hardware": {
-    "cpu": "Intel(R) Core(TM) i9-14900KF",
+    "cpu": "x86-64 desktop CPU",
     "logical_cpus": 32,
-    "os": "Windows 11",
-    "ram_gb": 102.9
+    "os": "Windows 11"
   },
   "label": "full",
   "machine_load": {

@@ -1,6 +1,6 @@
 # Experiments
 
-Every number produced here is **simulated or backtested on synthetic markets with assumed parameters** ([../docs/data.md](../docs/data.md)). The experiments evaluate this engine's own guarantees (are the engines right, do the guards catch what they should, how well do the inference tools work where the truth is known), not strategies; nothing here says anything about real markets.
+Every number here comes from simulations and backtests on synthetic markets with assumed parameters ([../docs/data.md](../docs/data.md)), except the labeled Kenneth French illustration and the measured wall times. The experiments evaluate this engine's own guarantees, not strategies: whether the engines are right, whether the guards catch what they should, and how well the inference tools work where the truth is known.
 
 ## How to reproduce
 
@@ -13,46 +13,46 @@ python -m quant_research_engine experiment run --only e3 --workers 2  # one expe
 python scripts/plot_results.py                                        # figures from experiments/results -> docs/figures
 ```
 
-Configurations are committed and frozen: `experiments/configs/e1.json` to `e5.json` (the full evaluation), `e5b.json`, `t2_capacity.json`, and `t2_trials.json` (Tier 2, each fixed before its single run), and `quick.json`; synthetic markets in `configs/synth/`. A seed of experiment `<id>` fixes the whole market through the derived seed `stream(seed, "experiment.<id>")`, so every strategy sees the same data and quick runs of different experiments never share a market. Each results directory of an experiment holds the rows, the aggregates, and `manifest.json` (commit and whether the tree was clean, configuration and its hash, seeds, Python/NumPy/SciPy/PyArrow/DuckDB versions, hardware class, worker count, thread settings, CPU load before and after, wall time). Bulky per-run files (E3's 86,400 trial rows, the per-market `trials.csv`, logs) stay in the ignored `experiments/outputs/`; their SHA-256 is recorded in the manifest. The exception is `results/t2_french/`, the output of a script rather than of the runner: it holds `summary.json` and a short manifest (commit, clean flag, software, hardware).
+Configurations are committed and frozen: `experiments/configs/e1.json` to `e5.json` (the full evaluation), `e5b.json`, `t2_capacity.json`, and `t2_trials.json` (the later experiments, each fixed before its single run), and `quick.json`; synthetic markets in `configs/synth/`. A seed of experiment `<id>` fixes the whole market through the derived seed `stream(seed, "experiment.<id>")`, so every strategy sees the same data and quick runs of different experiments never share a market. Each results directory of an experiment holds the rows, the aggregates, and `manifest.json` (commit and whether tracked files were clean, configuration and its hash, seeds, Python/NumPy/SciPy/PyArrow/DuckDB versions, hardware class, worker count, thread settings, the load sampled before and after, wall time). Bulky per-run files (E3's 86,400 trial rows, the per-market `trials.csv`, logs) stay in the ignored `experiments/outputs/`; their SHA-256 is recorded in the manifest. The exception is `results/t2_french/`, the output of a script rather than of the runner: it holds `summary.json` and a short manifest (commit, clean flag, software, hardware).
 
 ## Protocol
 
 - Seeds: development, tests, and `--quick` use 1 to 99. Full evaluation: E1 3000-3999; E2 4100-4109 (`small` audit stores), 4000-4009 (`null_e3`, canary Sharpe ratios), 4200-4209 (`planted`, C7); E3 1000-1199 (`null_e3`) and 2000-2199 (`planted`); E4 5000-5019; E5 6000-6049 (`null`) and 7000-7049 (`planted`).
 - Defaults: cost model v1 of the contract with its default parameters; `next_open` fills; vectorized runs with fixed-capital sizing (10 million, gross exposure 1; returns over the fixed capital); event-engine runs with equity sizing; `ppy` 252.
 - Statistics: means with 95 % Student-t intervals across markets or seeds; proportions with Wilson intervals; paired differences where two things share seeds. Exact ties are named.
-- Gross panels (all costs zero) are the calibration of the inference tools: on a null market every trial's true Sharpe ratio is zero. Net panels (base costs) are reported separately and labelled; their Sharpe ratios are not draws from the null that SR0 describes.
+- Gross panels (all costs zero) are the calibration of the inference tools: on a null market every trial's true Sharpe ratio is zero. Net panels (base costs) are reported separately and labeled; their Sharpe ratios are not draws from the null that SR0 describes.
 - The protocol, the grids, the sizes, the tolerances, and the rule for what the README highlights were fixed before the full evaluation; the README highlights no "best" configuration (headline numbers are fixed in advance: E1 largest differences and violations, E2 the full table, E3 the gross-panel null rates of naive PSR and DSR and the mean PBO, E4 the base case rebalance 5 / cost multiple 1 next to the grid, E5 the bias at h = 5 next to the full table).
 
 ## Results of the full evaluation
 
-E1 to E5 ran once, on commit `a1a0011` with a clean tree, with 2 workers and one thread per numerical library. The machine had an Intel Core i9-14900KF (32 logical CPUs, 102.9 GB RAM) and ran Windows 11, Python 3.12.3, and NumPy 2.5.3. It was shared with other jobs.
+E1 to E5 ran once, on commit `a1a0011` with no change to tracked files, with 2 workers and one thread per numerical library. The machine had an x86-64 desktop CPU (32 logical CPUs) and ran Windows 11 and Python 3.12, with the package versions recorded in the manifests.
 
-| Experiment | Wall time | CPU load before / after (%) |
-|---|---|---|
-| E1 | 89 s | 6 / 36 |
-| E2 | 770 s | 15 / 18 |
-| E3 | 773 s | 22 / 37 |
-| E4 | 122 s | 31 / 44 |
-| E5 | 914 s | 32 / 45 |
+| Experiment | Wall time |
+|---|---|
+| E1 | 89 s |
+| E2 | 770 s |
+| E3 | 773 s |
+| E4 | 122 s |
+| E5 | 914 s |
 
-These figures come from the manifests. `scripts/make_tables.py` generates the tables below from `experiments/results/`. Every number is simulated on synthetic markets with assumed parameters and holds only in this simulation, under these assumptions.
+These times come from the manifests. `scripts/make_tables.py` generates the tables below from `experiments/results/`.
 
 ## Reproducibility across platforms
 
 Results are byte-identical for the same configuration and seed on one platform with the same package versions. The full evaluation and every later quick check ran on the build machine:
-- Windows 11, Intel Core i9-14900KF (no AVX-512);
-- Python 3.12.3, NumPy 2.5.3, SciPy 1.18.1, PyArrow 25.0.1, DuckDB 1.5.6.
+- Windows 11 on an x86-64 desktop CPU without AVX-512;
+- Python 3.12 and the package versions recorded in the manifests.
 
 There the E1 to E5 quick results of the evaluation commit were reproduced byte for byte (`experiments/quick-hashes-a1a0011.txt`).
 
-Across platforms the results agree numerically, not byte for byte. The facts in this section come from an independent check that ran the quick experiments of the uploaded package of commit `894393f` on Linux (x86-64 with AVX-512, Python 3.12.3, the same package versions, one BLAS thread). This repository cannot reproduce that comparison without a Linux run.
+Across platforms the results agree numerically, not byte for byte. The facts in this section come from an independent check that ran the quick experiments of the uploaded package of commit `894393f` on Linux (x86-64 with AVX-512, Python 3.12, the same package versions, one BLAS thread). This repository cannot reproduce that comparison without a Linux run. A second Linux container check, of the package of commit `b90cc78` (the tree on `main`), passed all 208 tests; the quick experiments were not rerun there, because no source or configuration file had changed.
 
 - **Files that matched.** 8 of the 25 fingerprinted quick files matched byte for byte: `e1/aggregates.json`, `e1/rows.csv`, `e2/aggregates.json`, `e2/audit_instants.csv`, `e2/audit_table.csv`, `e2/detection.csv`, `e3/pbo_hist.csv`, and `e3/trial_grid.csv`. The other 17 differed.
 - **What differed.** A cell-by-cell comparison with the build machine's quick files, `wall_` columns left out, found no differing value other than floats and two SHA-256 fields that hash differing float bytes: `trials_sha256` in `e3/selected.csv` and the `trial_rows.csv` entry in `e3/outputs_index.json`. No selected parameter, count, flag, or decision changed.
 - **Size of the differences outside E5 and E5b.** Floats differed by less than 3e-11 relative; the largest was the E3 deflated Sharpe ratio, at 2.2e-11. The exception is the `max_identity_residual` columns, which are round-off: below 1e-11 on both platforms.
 - **Size of the differences in E5 and E5b.** The rank-correlation scores differed by at most 5.6e-6 in absolute value (`cv_score` and `bias` in `e5/rows.csv`, `cv_spearman` and `bias_spearman` in `e5b/rows.csv`; the held-out scores by at most 4.6e-7). For scale, the scores are about 1e-2 and their standard deviations across markets about 0.01 to 0.03.
 - **One cause, tested.** On a CPU with AVX-512, NumPy 2.5.3 takes an AVX-512 path for `power` that is one unit in the last place below the scalar `pow` for some arguments. Four of the 250 `sigma_bar` weights of `store/liquidity.py` are affected, and through them five `sigma_bar` cells of the tiny fixture. With NumPy's AVX-512 paths switched off, the fixture matched.
-- **The other cause, not isolated.** With those paths switched off, 9 of the 25 files matched (one more), and the E5 differences stayed (up to 5.9e-6). They come presumably from the last digit of `log1p`, `expm1`, and `exp` differing between the Windows runtime and glibc, which would move some nearest-neighbour sets (k = 25) at their boundary.
+- **The other cause, not isolated.** With those paths switched off, 9 of the 25 files matched (one more), and the E5 differences stayed (up to 5.9e-6). They come presumably from the last digit of `log1p`, `expm1`, and `exp` differing between the Windows runtime and glibc, which would move some nearest-neighbor sets (k = 25) at their boundary.
 
 Consequences:
 - Compare results across platforms numerically. The tests that compare generated files with committed ones do so cell by cell, with a float tolerance (`tests/helpers.py`).
@@ -82,7 +82,7 @@ Both engines run every scenario with logs written. The accounting identity is as
 
 - **What counts as a violation.** A violation is a fill mismatch or a validator failure, so zero is the expectation and any violation would be a bug.
 - **Excluded scenarios.** The engines are meant to agree only where neither the participation cap nor a rejection applies, so the 44 scenarios where the cap bound or an order was rejected are excluded from the comparison. Their event-engine logs were still validated, and the identity residuals above cover all 1000 scenarios.
-- **Throughput.** Measured inside E1 on these small scenarios, the engines processed 1.26e5 (event) and 1.64e6 (vectorized) instrument-bars per second. These are wall-clock figures: total instrument-bars over total run time of the compared scenarios, per-run setup included, 2 workers, load 6 to 36 %. `scripts/microbench.py` measures larger runs, with CPU time next to wall time.
+- **Throughput.** Measured inside E1 on these small scenarios, the engines processed 1.26e5 (event) and 1.64e6 (vectorized) instrument-bars per second. These are wall-clock figures: total instrument-bars over total run time of the compared scenarios, per-run setup included, 2 workers. `scripts/microbench.py` measures larger runs, with CPU time next to wall time.
 
 ## E2 Leakage audit
 
@@ -128,7 +128,7 @@ Both engines run every scenario with logs written. The accounting identity is as
 
 **Sharpe ratios.** C1, C1b, and C2 were compared with the honest one-feature momentum(21, 5) rule (a decision every bar; the same weighting as C1 and C1b, while C2 holds all of its weight in one instrument) on 10 `null_e3` markets, 60 × 1260 (seeds 4000 to 4009). On these markets the honest rule's true Sharpe ratio is zero.
 - Runs use the event engine, equity sizing, 10 million initial cash, and a warmup of 25 bars.
-- The gross panel (all costs zero) is the comparison. The net panel (base costs) is labelled.
+- The gross panel (all costs zero) is the comparison. The net panel (base costs) is labeled.
 - C7 (UNSAFE same-close fills) was compared with the same strategy, `signal_x_ls`, at `next_open` on 10 `planted` markets, 60 × 1260 (seeds 4200 to 4209, warmup 40).
 - The paired difference is taken against the honest rule or against `signal_x_ls` at `next_open`, on the same markets (`sharpe_aggregates.csv`, `sharpe_rows.csv`).
 
@@ -157,6 +157,8 @@ Both engines run every scenario with logs written. The accounting identity is as
 - **C7 changed nothing measurable.** The UNSAFE same-close fill did not change the Sharpe ratio of `signal_x_ls` measurably: both ratio intervals contain 1. With persistence 0.9 and an overnight share of 0.25, the expected gap is about 2.5 % of the planted per-bar mean, which these 10 markets cannot resolve. This is an expectation, not a measured cause.
 - **C8** is measured by the shuffled K-fold rows of E5 on null markets: a bias of 0.260 ± 0.005 at h = 5 and 0.444 ± 0.010 at h = 21.
 
+![leakage](../docs/figures/leakage.png)
+
 ## E3 Calibration of the inference tools
 
 The trial grid has 108 trials (`results/e3/trial_grid.csv`):
@@ -169,7 +171,7 @@ Markets and engine:
 - The vectorized engine runs with fixed capital of 10 million and gross exposure 1. Every trial starts at bar 259, which gives 1000 aligned rows of returns.
 - The CSCV uses S = 16. The bootstrap uses p = 0.1 and 1000 draws.
 
-The gross panel (all costs zero) is the calibration. The net panel (base costs) is labelled. Its SR0 rests on the variance of the 108 net Sharpe ratios, which differ mainly by turnover, so the net SR0 and the ratios built on it are not a null comparison. They show only what gets selected and what the PBO says (`aggregates.csv`, `selected.csv`, `pbo_hist.csv`, `lo.csv`).
+The gross panel (all costs zero) is the calibration. The net panel (base costs) is labeled. Its SR0 rests on the variance of the 108 net Sharpe ratios, which differ mainly by turnover, so the net SR0 and the ratios built on it are not a null comparison. They show only what gets selected and what the PBO says (`aggregates.csv`, `selected.csv`, `pbo_hist.csv`, `lo.csv`).
 
 | Market / panel | Selected trial's per-bar Sharpe | SR0 (N = 108) | Selected / SR0 | Naive PSR(0) > 0.95 | DSR > 0.95 | Mean PBO | Selected trial uses signal_x |
 |---|---|---|---|---|---|---|---|
@@ -197,12 +199,14 @@ The gross panel (all costs zero) is the calibration. The net panel (base costs) 
 - **Bootstrap coverage.** The interval of the selected trial covered zero in 37.5 % of null markets. For the trial fixed in advance (momentum 21/5, q 0.2 equal, every 5 bars) it covered zero in 95.0 %.
 - **Lo adjustment.** At AR(1) coefficients 0.1, 0.2, and 0.3 the naive annualization overstated the true Sharpe ratio (0.78 vs 0.72, 0.82 vs 0.65, 0.84 vs 0.58), and its intervals exclude the true value. The Lo-adjusted intervals contain the true value at every coefficient. At coefficient 0 the naive and adjusted values (0.81, 0.82) both sit near the true 0.79.
 
+![calibration](../docs/figures/calibration.png)
+
 ## E4 Signal recovery, costs, and lag
 
 20 seeds (5000 to 5019), 100 instruments by 2520 bars.
 
 **(a) Recovery.** `planted_clean` has no factors, equal idiosyncratic volatility, no regime, and no events; `planted` has factors, regimes, and events.
-- The information coefficients use the correlation with the standardized idiosyncratic return. The rows marked raw use the raw next-bar return instead, which is a different estimator and is labelled.
+- The information coefficients use the correlation with the standardized idiosyncratic return. The rows marked raw use the raw next-bar return instead, which is a different estimator and is labeled.
 - The fundamental-law row is a bound from the generator's panels (close-to-close holding, which no engine allows).
 - The event-engine row (next open, equity sizing, a decision every bar, zero costs, participation cap off) uses the latent signal and is an oracle.
 - Expected value of the engine row: the bound × (1 − 0.25 × (1 − 0.9)) (`results/e4/aggregates.json`).
@@ -216,10 +220,10 @@ The gross panel (all costs zero) is the calibration. The net panel (base costs) 
 | Sharpe of signal_x weights / Sharpe of latent weights (close to close) | 0.704 | 0.707 |
 | IC of the latent signal (oracle), planted | 0.0204 ± 0.0011 | – |
 | IC of signal_x, planted | 0.0150 ± 0.0009 | – |
-| IC of the latent signal vs the raw next-bar return, planted (labelled: not the estimator above) | 0.0165 ± 0.0010 | – |
-| IC of signal_x vs the raw next-bar return, planted (labelled) | 0.0121 ± 0.0010 | – |
+| IC of the latent signal vs the raw next-bar return, planted (labeled: not the estimator above) | 0.0165 ± 0.0010 | – |
+| IC of signal_x vs the raw next-bar return, planted (labeled) | 0.0121 ± 0.0010 | – |
 
-**(b) Costs.** The strategy is `signal_x_ewma(3)` with `long_short_quantile(0.2, equal, gross 1)` on `planted` markets, using the vectorized engine and fixed capital of 10 million. Returns and turnover are measured against the fixed capital (DECISIONS: QC-CHANGE).
+**(b) Costs.** The strategy is `signal_x_ewma(3)` with `long_short_quantile(0.2, equal, gross 1)` on `planted` markets, using the vectorized engine and fixed capital of 10 million. Returns and turnover are measured against the fixed capital.
 - The cost multiple scales every cost rate; the cash rate and the participation cap stay unchanged.
 - The break-even multiple comes from linear interpolation of the mean net Sharpe curve (`costs.csv`).
 - The base case, fixed in advance, is rebalancing every 5 bars at cost multiple 1: net 0.09 ± 0.22, gross 1.42 ± 0.19.
@@ -263,13 +267,15 @@ The gross panel (all costs zero) is the calibration. The net panel (base costs) 
 - **`next_close` against `next_open`.** At delay 1, `next_close` fills gave lower gross and net Sharpe ratios than `next_open` fills at every persistence level (paired; for example net 0.214 ± 0.064 lower at 0.5 and 0.062 ± 0.038 lower at 0.97).
 - **Net sign.** The net Sharpe ratio was negative at persistence 0.5 for all four fill settings and positive at persistence 0.97 (0.68 to 0.82). At persistence 0.9 only `next_open` with delay 3 had an interval below zero (−0.18 ± 0.18); the other three intervals contain zero.
 
+![costs and lag](../docs/figures/costs_lag.png)
+
 ## E5 Validation schemes
 
 50 `null` markets (seeds 6000 to 6049) and 50 `planted` markets (seeds 7000 to 7049), each 60 × 1533: a sample of 1260 bars, a gap of 21, and a held-out segment of 252.
-- **Model.** k-nearest-neighbour regression with k = 25, per instrument. Features: trailing returns over 5, 21, and 63 bars and the 21-bar trailing volatility, standardized with the instrument's training observations. The target is the forward compounded return over h bars.
+- **Model.** k-nearest-neighbor regression with k = 25, per instrument. Features: trailing returns over 5, 21, and 63 bars and the 21-bar trailing volatility, standardized with the instrument's training observations. The target is the forward compounded return over h bars.
 - **Score.** The Spearman correlation pooled over instruments.
 - **Schemes** (K = 5):
-  - shuffled K-fold and contiguous K-fold without purge, both run through `allow_unpurged` and labelled UNPURGED;
+  - shuffled K-fold and contiguous K-fold without purge, both run through `allow_unpurged` and labeled UNPURGED;
   - purged K-fold with an embargo of h;
   - walk-forward.
 - **Bias.** The cross-validation score minus the held-out score of the model fitted on the whole sample. The table gives its mean ± t interval and its standard deviation across markets (`results/e5/aggregates.csv`).
@@ -306,9 +312,11 @@ The gross panel (all costs zero) is the calibration. The net panel (base costs) 
   - Contiguous K-fold without purge showed no bias distinguishable from zero at h = 5 and 21. Only observations within h bars of a fold boundary share labels with the test fold.
   - Some small negative biases on planted markets have intervals that exclude zero: purged K-fold at h = 21 (−0.013 ± 0.011, an interval ending 0.002 below zero) and walk-forward at h = 1 (−0.004 ± 0.003, ending 0.0006 below zero). At h = 1 the intervals of contiguous K-fold and purged K-fold (−0.00375 ± 0.00364 and −0.00373 ± 0.00364) end within 0.0002 of zero, which is borderline and not a finding.
 
-## E5b CPCV in the comparison of validation schemes (Tier 2 item 1, commit `6892cb1`)
+![validation](../docs/figures/validation.png)
 
-`python -m quant_research_engine experiment run --only e5b --workers 2` (configuration `experiments/configs/e5b.json`; quick entry in `quick.json`). It ran once, on commit `6892cb1` with a clean tree: 2 workers, 373 s wall time, CPU load 29 % before and 28 % after (manifest).
+## E5b CPCV in the comparison of validation schemes (commit `6892cb1`)
+
+`python -m quant_research_engine experiment run --only e5b --workers 2` (configuration `experiments/configs/e5b.json`; quick entry in `quick.json`). It ran once, on commit `6892cb1` with no change to tracked files: 2 workers, 373 s wall time (manifest).
 
 Setup:
 - **Markets:** 25 `null` markets (seeds 8000 to 8024) and 25 `planted` markets (seeds 9000 to 9024), each 60 × 1533, with E5's sample, gap, and held-out segment. The model, features, and labels are those of E5, at h = 5.
@@ -338,13 +346,32 @@ Setup:
 | planted_h5_sharpe | walk_forward | contiguous_kfold |
 | planted_h5_spearman | walk_forward | contiguous_kfold |
 
-## Kenneth French illustration (Tier 2 item 2, commit `0ea0e9b`; illustration, no claims)
+![cpcv](../docs/figures/cpcv.png)
 
-Run with `python scripts/illustrate_french.py`. It is not part of `experiment run`, because it needs a one-time download into the git-ignored `data/cache/`. With the file cached, `--offline` reproduces it without the network. The result, `results/t2_french/summary.json`, holds derived metrics only, and its manifest records a clean tree on `0ea0e9b`. Data, terms, run, and numbers are in the README. This is the only result in the repository that does not come from synthetic data, and it is labelled "illustration, no claims".
+## Kenneth French illustration (commit `0ea0e9b`; illustration, no claims)
 
-## Capacity and impact (Tier 2 item 3, commit `df91f7c`)
+Run with `python scripts/illustrate_french.py`. It is not part of `experiment run`, because it needs a one-time download into the git-ignored `data/cache/`. With the file cached, `--offline` reproduces it without the network. The result, `results/t2_french/summary.json`, holds derived metrics only, and its manifest records no change to tracked files on `0ea0e9b`. This is the only result in the repository that does not come from synthetic data, and it is labeled "illustration, no claims".
 
-`python -m quant_research_engine experiment run --only t2_capacity --workers 2` (configuration `experiments/configs/t2_capacity.json`). It ran once, on commit `df91f7c` with a clean tree: 2 workers, 54 s wall time, CPU load 38 % before and 11 % after. No other project's run was active, and the owner's training job was running.
+- **Kenneth R. French Data Library.** The adapter turns a daily portfolio file into a return-index store. The file has no open and no volume, so fills are at `next_close` and impact is off.
+  - **Data:** the 49 industry portfolios, value-weighted daily returns from 2000-01-03 to 2026-08-31. The file is downloaded once to the git-ignored `data/cache/` and never committed. It is the library's latest vintage and is not point-in-time, and each return becomes known one day after its close.
+  - **Terms:** copyright Eugene F. Fama and Kenneth R. French; the file says it was built from the CRSP database. No terms of use were found ([../docs/data.md](../docs/data.md#third-party-sources-adapters)).
+  - **Run:** the built-in `momentum_ls`, rebalanced every 21 bars, through the event engine with equity sizing, base spread and commission, and one trial fixed before the data was read.
+- **Binance daily klines.** The adapter is tested on an offline fixture only. Nothing was downloaded, because the archive's terms were not accepted.
+- **SEC `companyfacts`.** Skipped, because `QRE_SEC_USER_AGENT` was not set.
+
+| Illustration, no claims | Value |
+|---|---|
+| net daily returns after the warmup | 6674 |
+| net / gross annualized Sharpe ratio | 0.15 / 0.25 |
+| PSR(0) of the net returns (one trial) | 0.78 |
+| maximum drawdown | 19.4 % |
+| fills; largest accounting-identity residual | 8992; 8.7e-16 |
+
+These numbers show only that the adapter and the engine run on such a file with the accounting identity intact. One strategy, one period, and a revised data vintage say nothing about momentum or about markets.
+
+## Capacity and impact (commit `df91f7c`)
+
+`python -m quant_research_engine experiment run --only t2_capacity --workers 2` (configuration `experiments/configs/t2_capacity.json`). It ran once, on commit `df91f7c` with no change to tracked files: 2 workers, 54 s wall time.
 
 Setup:
 - **Strategy and markets:** `signal_x_ls` on 10 `planted` markets, 60 × 1260 (seeds 10000 to 10009), warmup 40, a decision every 5 bars, event engine, equity sizing, base cost model, at initial capitals of 1e6, 1e7, 3e7, 1e8, 3e8, 1e9, and 3e9.
@@ -367,16 +394,25 @@ Setup:
 | capital at which it falls to half | 3.18e+06 |
 | capital at which it falls to zero | 1.01e+07 |
 
-## Effective number of trials and multiple testing (Tier 2 item 4, commit `d26a863`)
+- **Net Sharpe ratio falls fast with capital.** The mean net Sharpe ratio fell from 0.48 ± 0.20 at 1 million to 0.00 ± 0.20 at 10 million, and was negative from 30 million on. The half point interpolates between 1 million and 10 million. The zero point interpolates between 10 million and 30 million, because the mean at 10 million was still +0.003.
+- **Gross Sharpe ratio holds, then falls.** It stayed between 0.95 and 0.98 up to 100 million and then fell. Over the same range the cap was reached more often: at 54 % of fill events at 100 million and at 98 % at 3 billion. No run with the cap off isolates the cause.
+- **Neither impact nor the net Sharpe ratio moves in one direction with capital.** Impact per unit of equity peaked at 300 million to 1 billion and then fell. The net Sharpe ratio was less negative at 3 billion than at 300 million.
 
-`python -m quant_research_engine experiment run --only t2_trials --workers 2` (configuration `experiments/configs/t2_trials.json`). It ran once, on commit `d26a863` with a clean tree: 2 workers, 541 s wall time, CPU load 25 % before and 96 % after (the owner's training job; no other project's run was active).
+The capacity numbers belong to this strategy, this cost model, and these synthetic volumes.
+
+![capacity](../docs/figures/capacity.png)
+
+## Effective number of trials and multiple testing (commit `d26a863`)
+
+`python -m quant_research_engine experiment run --only t2_trials --workers 2` (configuration `experiments/configs/t2_trials.json`). It ran once, on commit `d26a863` with no change to tracked files: 2 workers, 541 s wall time.
 
 Setup:
 - **Markets and returns:** the 200 null and 200 planted markets of E3 (seeds 1000 to 1199 and 2000 to 2199, the same derived market seeds), with the gross per-bar returns of the 108 trials.
-- **Rules:** see the README. In short:
-  - N_eff = (Σλ)² / Σλ² over the eigenvalues of the trials' return correlation matrix;
-  - p-value of trial j = 1 − PSR_j(0);
-  - Holm and Benjamini-Hochberg at 0.05.
+- **Rules** for "the selected strategy is significant":
+  - the naive PSR(0) and the DSR with N = 108, as in E3;
+  - the DSR with N = N_eff rounded to an integer, where N_eff = (Σλ)² / Σλ² over the eigenvalues of the correlation matrix of the 108 trials' returns (V stays the variance over all 108);
+  - Holm's step-down and Benjamini-Hochberg's step-up procedures at 0.05 on the per-trial p-values 1 − PSR_j(0).
+- **Scoring:** on null markets every discovery is a false positive. On planted markets a discovery counts as power when it involves `signal_x`: for Holm and Benjamini-Hochberg a rejected `signal_x` trial, for the PSR and DSR rules a selected `signal_x` trial.
 - **Consistency check against E3:** the selection, the naive PSR flag, and the N = 108 DSR flag equal E3's committed values on all 400 markets (checked from `results/e3/selected.csv`; also on the 40 quick markets).
 
 | Rule | Null markets: share with a discovery (false positive) | Planted markets: share with a discovery involving signal_x (power) |
@@ -392,7 +428,25 @@ Setup:
 | null | 200 | 11.0 (10.1 to 11.7) |
 | planted | 200 | 11.0 (10.1 to 11.9) |
 
-## TODO
+- **DSR with N_eff.** Its false-positive rate stayed low (2.0 % [0.8, 5.0]), and its power on planted markets rose from 0.5 % (N = 108) to 40.0 % [33.5, 46.9].
+- **Holm and Benjamini-Hochberg.** On null markets they made a discovery in 3.0 % and 3.5 % of markets, against a nominal 5 %. On planted markets they made a discovery involving `signal_x` in 57.5 % and 63.5 %.
+- **Assumptions behind the p-values.** The per-trial p-values ignore the dependence between trials: Holm's guarantee holds under any dependence, while Benjamini-Hochberg's assumes independence or positive dependence.
+- **Scope.** N_eff here is one eigenvalue-based count, not a clustering, and these rates describe this trial grid on these synthetic markets.
 
-- **Variance of the E2 Sharpe comparison.** Run more markets for the C7 comparison: with 10 markets the ratio interval (±0.09 gross) cannot resolve the expected gap of a few percent.
-- **Throughput.** Measure the engines' throughput inside the experiments on an idle machine. Today it is wall-clock on a shared machine, per-run setup included (E1).
+## Limitations
+
+- Every result except the Kenneth French illustration comes from synthetic markets with assumed parameters ([../docs/data.md](../docs/data.md)). Nothing here measures real markets.
+- Attribution is by instrument and by long and short book only. There is no regression on the market and the synthetic factors, no beta-hedged market-neutral variant, and no exposure section in the report.
+- Only daily calendars exist (`equity_daily`, `crypto_daily`, and weekly and monthly views of them). Intraday bars and the response of the net Sharpe ratio to decision and data delays are not covered.
+- Hyperparameters are not selected by a validation nested inside an outer evaluation, so the DSR and PBO of such a selection are not measured.
+- `export` writes one market per command; the planted 60 × 1260 export passes `validate`. Exports of the planted market at the `tiny`, `base`, and `wide` sizes are not produced.
+- The Binance adapter is tested on an offline fixture only. Downloading needs an acceptance of the Binance dataset terms (CC BY-NC-SA 4.0, and with them the Binance Terms of Use), which was not given.
+- There is no point-in-time fundamentals adapter for SEC `companyfacts` (the `filed` date as `ts_avail`, a later filing of the same period as a new vintage). It needs a User-Agent in `QRE_SEC_USER_AGENT`.
+- macOS has not been run, and the full experiments ran only on the build machine. The GitHub workflow passed on `main` on 2026-10-03, and the tests of commit `b90cc78` passed on Linux.
+- Results are byte-identical on one platform and agree numerically across platforms ([reproducibility](#reproducibility-across-platforms)). Computing the platform-sensitive floats identically, for example the liquidity weights with `math.pow`, would change result-affecting code and so the evaluation.
+- The vectorized engine raises on a non-integer split ratio, and the generator and the E1 scenarios draw only ratios 2 and 3.
+- The replay audit runs in one process. A module imported before the audit, from outside the subjects' directories, survives the purge, and package state deeper than one level is not compared ([../docs/lookahead.md](../docs/lookahead.md#what-the-audit-cannot-prove)).
+- N_eff is the eigenvalue participation ratio, and V is the variance over all 108 trials. An N_eff from clustering the trials' correlation matrix is not computed.
+- With 10 markets, the interval of the C7 ratio (±0.09 gross) cannot resolve the expected gap of a few percent.
+- Every wall-clock number, the E1 throughput included, comes from one desktop machine with per-run setup included, not from a dedicated benchmark machine.
+- The manifests' `dirty` flag covers tracked files only (`git status --untracked-files=no`), so a manifest can say clean while untracked files exist.

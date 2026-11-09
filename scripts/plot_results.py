@@ -4,7 +4,7 @@ python scripts/plot_results.py [--results experiments/results] [--out docs/figur
 
 Reads experiments/results/<id>/ (E2 leakage, E3 calibration, E4 costs and lag, E5 validation,
 E5b CPCV,
-Tier 2 capacity).
+capacity).
 Quick results (manifest mode "quick") are refused unless --allow-quick is given; such figures
 carry a QUICK stamp and never go into the README.
 """
@@ -354,7 +354,7 @@ def e5b_fig(d, out, allow_quick):
 
 
 def capacity_fig(d, out, allow_quick):
-    """Tier 2 capacity: net and gross Sharpe ratio against the initial capital (log scale), and
+    """Capacity: net and gross Sharpe ratio against the initial capital (log scale), and
     the share of fill events at which the participation cap bound."""
     quick, m = check_mode(d, allow_quick)
     agg = rows(os.path.join(d, "aggregates.csv"))
@@ -396,12 +396,107 @@ def capacity_fig(d, out, allow_quick):
     finish(fig, os.path.join(out, "capacity.png"), quick, m.get("git", {}).get("commit", ""))
 
 
+README_RC = {
+    "font.size": 9.5,
+    "axes.titlesize": 11,
+    "axes.labelsize": 11,
+    "xtick.labelsize": 9.5,
+    "ytick.labelsize": 9.5,
+    "legend.fontsize": 9.5,
+    "axes.spines.top": False,
+    "axes.spines.right": False,
+}
+
+
+def save_readme(fig, path):
+    fig.savefig(path, dpi=110, facecolor=SURF, metadata={"Software": None})
+    plt.close(fig)
+    print(path)
+
+
+def readme_figures(results, out):
+    """README versions at README font sizes (880 px wide at 110 dpi; text 9.5 pt, titles 11 pt).
+
+    E2: what the leaks earn on null markets against the honest rule (gross panel). E3: how often
+    the best of 108 trials is called significant (gross panels). The full figures stay
+    leakage.png and calibration.png."""
+    for exp in ("e2", "e3"):
+        check_mode(os.path.join(results, exp), False)
+    with plt.rc_context(README_RC):
+        sh = [
+            r
+            for r in rows(os.path.join(results, "e2", "sharpe_aggregates.csv"))
+            if r["part"] == "sharpe" and r["panel"] == "gross"
+        ]
+        order = ["C1", "C1b", "C2", "honest"]
+        names = {
+            "C1": "C1 next close, memoized handle",
+            "C1b": "C1b next close, store by path",
+            "C2": "C2 full-sample mean",
+            "honest": "honest momentum rule",
+        }
+        sh = sorted(sh, key=lambda r: order.index(r["subject_id"]))
+        fig, ax = plt.subplots(figsize=(8.0, 3.0), facecolor=SURF)
+        y = np.arange(len(sh))[::-1]
+        ax.barh(
+            y,
+            [num(r["sharpe_ann_mean"]) for r in sh],
+            xerr=[num(r["sharpe_ann_ci95"]) for r in sh],
+            color=[C[0] if r["subject_id"] == "honest" else C[1] for r in sh],
+            ecolor=INK2,
+            capsize=3,
+        )
+        ax.set_yticks(y, [names[r["subject_id"]] for r in sh])
+        ax.axvline(0, color=INK2, linewidth=1)
+        ax.set_xlabel("annualized Sharpe ratio, mean and 95 % t interval")
+        ax.set_title("E2: what a leak earns on 10 null markets (gross panel)")
+        fig.tight_layout()
+        save_readme(fig, os.path.join(out, "readme_leakage.png"))
+
+        agg = {
+            (r["kind"], r["panel"]): r for r in rows(os.path.join(results, "e3", "aggregates.csv"))
+        }
+        groups = [("null", "null markets (no signal)"), ("planted", "planted markets (signal_x)")]
+        rules = [
+            ("naive_psr_gt_095", "naive PSR(0) > 0.95", C[1]),
+            ("dsr_gt_095", "DSR (N = 108) > 0.95", C[0]),
+        ]
+        fig, ax = plt.subplots(figsize=(8.0, 3.6), facecolor=SURF)
+        w = 0.36
+        for i, (key, label, color) in enumerate(rules):
+            xs = np.arange(len(groups)) + (i - 0.5) * w
+            vals = np.array([100 * num(agg[(g, "gross")][key + "_share"]) for g, _ in groups])
+            lo = np.array([100 * num(agg[(g, "gross")][key + "_lo"]) for g, _ in groups])
+            hi = np.array([100 * num(agg[(g, "gross")][key + "_hi"]) for g, _ in groups])
+            ax.bar(
+                xs,
+                vals,
+                width=w * 0.92,
+                color=color,
+                label=label,
+                yerr=[np.maximum(vals - lo, 0), np.maximum(hi - vals, 0)],
+                ecolor=INK2,
+                capsize=3,
+            )
+        ax.axhline(5, color=INK2, linewidth=1, linestyle="--")
+        ax.text(1.5, 7, "nominal 5 %", ha="right", va="bottom", color=INK2)
+        ax.set_xticks(range(len(groups)), [g[1] for g in groups])
+        ax.set_xlim(-0.6, 1.6)
+        ax.set_ylim(0, 132)
+        ax.set_yticks(range(0, 101, 20))
+        ax.set_ylabel("markets (%)")
+        ax.set_title("E3: best of 108 trials called significant (gross, 200 markets each)")
+        ax.legend(loc="upper center", ncol=2, frameon=False)
+        fig.tight_layout()
+        save_readme(fig, os.path.join(out, "readme_calibration.png"))
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--results", default=os.path.join("experiments", "results"))
     ap.add_argument("--out", default=os.path.join("docs", "figures"))
     ap.add_argument("--allow-quick", action="store_true")
-    ap.add_argument("--only", default="e2,e3,e4,e5,e5b,t2_capacity")
+    ap.add_argument("--only", default="e2,e3,e4,e5,e5b,t2_capacity,readme")
     a = ap.parse_args(argv)
     os.makedirs(a.out, exist_ok=True)
     todo = {
@@ -413,6 +508,9 @@ def main(argv=None) -> int:
         "t2_capacity": capacity_fig,
     }
     for exp in a.only.split(","):
+        if exp == "readme":
+            readme_figures(a.results, a.out)
+            continue
         d = os.path.join(a.results, exp)
         if os.path.exists(os.path.join(d, "manifest.json")):
             todo[exp](d, a.out, a.allow_quick)

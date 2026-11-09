@@ -2,7 +2,7 @@
 
 Research and simulation software: everything here runs on synthetic data (or a user's local CSV file), and nothing in it trades or connects to a broker.
 
-![framework](figures/framework.png)
+![Architecture: store, DecisionContext, guards, strategy, the two engines, validator, and inference](figures/architecture.svg)
 
 ## Modules
 
